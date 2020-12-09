@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
                       .call()
                       .then(value => {
                         for (let i = 1; i <= value; i++) {
-                          const immobilier = this.marketPlace.methods.Immobiliere(i)
+                          const immobilier = this.marketPlace.methods.immobilieres(i)
                             .call()
                             .then(immobiliers => {
                               console.log("test show getcontract");
