@@ -1,0 +1,72 @@
+
+<mat-toolbar color="warn" style="min-height: 55px !important; height: 55px !important;" class="mat-elevation-z6">
+  <span class="font-14">MarketPlace</span>
+  <span class="example-spacer"></span>
+  <span class="font-14">Balance : {{balance}} ETH</span>
+</mat-toolbar>
+
+<!--<div style="text-align: center">-->
+
+<!--<iframe frameborder=0 style="min-width: 200px; width: 55%; height: 460px;" scrolling="no" seamless="seamless"-->
+<!--srcdoc='<html><body><style type="text/css">.gist .gist-data { height: 400px; }</style><script src="https://gist.github.com/Sudhanmanoharan/4a2eb15e846d1fa107d6589c379817a4.js"></script></body></html>'></iframe>-->
+<!--</div>-->
+
+<!--<div [innerHTML]="data.html">-->
+<!--</div>-->
+
+<mat-tab-group mat-stretch-tabs>
+  <mat-tab>
+
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">add</mat-icon>
+      Add Immobilier
+    </ng-template>
+
+    <div class="text-center">
+
+      <h3>Add Immobilier</h3>
+
+      <div class="example-form margin-auto">
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Immobilier Name</mat-label>
+          <input type="text" matInput placeholder="Immobilier Name" [(ngModel)]="imbName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="example-full-width">
+          <mat-label>Immobilier Price</mat-label>
+          <input type="text" matInput placeholder="Immobilier Price" [(ngModel)]="imbPrice">
+        </mat-form-field>
+
+        <button class="example-full-width" mat-raised-button color="warn"
+                (click)="createImb(imbName, imbPrice)">Add Immobilier
+        </button>
+
+      </div>
+
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">list</mat-icon>
+      Immobilier List
+    </ng-template>
+    <mat-list>
+      <h2 mat-subheader>Immobilier List</h2>
+      <mat-list-item *ngFor="let imb of totalImb;let i = index; trackBy: trackByFn">
+        <!--<mat-icon mat-list-icon>folder</mat-icon>-->
+        <img matListAvatar src="../assets/ethereum.png" alt="icon">
+        <h4 mat-line>{{imb.name}}</h4>
+        <p mat-line>£ {{convertEtherToPrice(imb.price)}}</p>
+        <span class="example-spacer"></span>
+        <span *ngIf="imb.purchased" style="color: green"> Purchased </span>
+        <button *ngIf="!imb.purchased" color="primary" mat-button
+                (click)="purchaseImb(imb.id, imb.price)">Buy
+        </button>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-tab>
+</mat-tab-group>
+
+
+<router-outlet></router-outlet>
