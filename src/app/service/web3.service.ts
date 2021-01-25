@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-const marketPlaceArtifacts = require('../../../build/contracts/MarketPlaceImb.json');
+const marketPlaceArtifacts = require('../../../build/contracts/ImmobiliersForAll.json');
 
 declare var require;
 const Web3 = require('web3');
@@ -38,7 +38,7 @@ export class Web3Service {
     return new Promise((resolve, reject) => {
       const web3 = window.web3;
       const account = web3.eth.getAccounts();
-      console.log("account ++++++++++++", account);
+      //("account ++++++++++++", account);
       if (account !== undefined) {
         resolve(account);
       } else {
@@ -54,10 +54,10 @@ export class Web3Service {
       let networkId;
       web3.eth.net.getId()
         .then((netId: any) => {
-          console.log("netId +++++++++++++++++++++++++++++++",netId)
+          //console.log("netId +++++++++++++++++++++++++++++++",netId)
           networkId = netId;
           const abi = marketPlaceArtifacts.abi;
-          console.log("abi +++++++++++++++++++++++++++++++",abi)
+          //console.log("abi +++++++++++++++++++++++++++++++",abi)
           const networkAddress = marketPlaceArtifacts.networks[networkId].address;
           const marketplace = new web3.eth.Contract(abi, networkAddress);
           resolve(marketplace);

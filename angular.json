@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "MarketBlockchain"
+  "defaultProject": "MarketBlockchain",
+  "cli": {
+    "analytics": "ca4e8a6b-b5e9-46f5-af1f-210b1925f140"
+  }
 }

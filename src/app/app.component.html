@@ -1,38 +1,112 @@
-
 <mat-toolbar color="warn" style="min-height: 55px !important; height: 55px !important;" class="mat-elevation-z6">
   <span class="font-14">MarketPlace Immobilière</span>
   <span class="example-spacer"></span>
   <span class="font-14">Balance : {{balance}} ETH</span>
+  <span class="example-spacer"></span>
+  <span class="font-14">User : {{this.accountNumber}}</span>
 </mat-toolbar>
 
-<mat-tab-group mat-stretch-tabs>
+<mat-tab-group mat-stretch-tabs color="warn">
+
   <mat-tab color="warn">
 
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">add</mat-icon>
+    <ng-template mat-tab-label color="warn">
+      <mat-icon class="example-tab-icon" color="warn">add</mat-icon>
       Add Immobilier
     </ng-template>
+
+
+
 
     <div class="text-center">
 
       <h3>Add Immobilier</h3>
 
+
       <div class="example-form margin-auto">
-        <mat-form-field appearance="outline" class="example-full-width">
-          <mat-label>Immobilier Name</mat-label>
+        <form [formGroup]="galleryForm" (ngSubmit)="onFormSubmit()">
+
+          <mat-form-field appearance="outline" class="example-full-width" color="warn">
+            <mat-label>Gallery Image</mat-label>
+            <ngx-mat-file-input formControlName="imageFile" placeholder="Select Image"
+              valuePlaceholder="No image file selected" [errorStateMatcher]="matcher"></ngx-mat-file-input>
+            <mat-icon matSuffix>folder</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width" color="warn">
+            <mat-label color="warn">Immobilier Name</mat-label>
+            <input type="text" matInput placeholder="Immobilier Name" formControlName="imbName">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width" color="warn">
+            <mat-label color="warn">Area</mat-label>
+            <input type="text" matInput placeholder="Area in m²" formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width" color="warn">
+            <mat-label color="warn">Immobilier Price</mat-label>
+            <input type="text" matInput placeholder="Immobilier Price" formControlName="imbPrice">
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" color="warn">
+            <mat-label color="warn">Address</mat-label>
+            <input type="text" matInput placeholder="Localisation" formControlName="localisation">
+          </mat-form-field>
+
+          <mat-form-field color="warn" class="example-full-width">
+            <mat-label>Description</mat-label>
+            <input type="text" matInput placeholder="Description" formControlName="description">
+          </mat-form-field>
+
+          <div class="button-row">
+            <button type="submit" class="example-full-width" mat-raised-button color="warn">
+              Add Immobilier<mat-icon>upgrade</mat-icon>
+            </button>
+            <!--        <button class="example-full-width" mat-raised-button color="warn"
+              (click)="createImb(imbName, imbPrice, area, localisation, description)">Add Immobilier
+            </button> -->
+          </div>
+        </form>
+
+      </div>
+
+
+
+
+      <!--    <div class="example-form margin-auto">
+
+        <mat-form-field appearance="outline" class="example-full-width" color="warn">
+          <mat-label color="warn">Immobilier Name</mat-label>
           <input type="text" matInput placeholder="Immobilier Name" [(ngModel)]="imbName">
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="example-full-width">
-          <mat-label>Immobilier Price</mat-label>
+        <mat-form-field appearance="outline" class="example-full-width" color="warn">
+          <mat-label color="warn">Area</mat-label>
+          <input type="text" matInput placeholder="Area in m²" [(ngModel)]="area">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="example-full-width" color="warn">
+          <mat-label color="warn">Immobilier Price</mat-label>
           <input type="text" matInput placeholder="Immobilier Price" [(ngModel)]="imbPrice">
         </mat-form-field>
 
+        <mat-form-field class="example-full-width" color="warn">
+          <mat-label color="warn">Address</mat-label>
+          <input type="text" matInput placeholder="Localisation" [(ngModel)]="localisation">
+        </mat-form-field>
+
+        <mat-form-field color="warn" class="example-full-width">
+          <mat-label>Description</mat-label>
+          <input type="text" matInput placeholder="Description" [(ngModel)]="description">
+        </mat-form-field>
+
         <button class="example-full-width" mat-raised-button color="warn"
-                (click)="createImb(imbName, imbPrice)">Add Immobilier
+          (click)="createImb(imbName, imbPrice, area, localisation, description)">Add Immobilier
         </button>
 
-      </div>
+      </div> -->
+
+
 
     </div>
   </mat-tab>
@@ -43,21 +117,39 @@
       <mat-icon color="warn" class="example-tab-icon">list</mat-icon>
       Immobilier List
     </ng-template>
-    <mat-list>
-      <h2 mat-subheader>Immobilier List</h2>
-      <mat-list-item *ngFor="let imb of totalImb;let i = index; trackBy: trackByFn" color="warn">
-        <!--<mat-icon mat-list-icon>folder</mat-icon>-->
-        <img matListAvatar src="../assets/ethereum.png" alt="icon">
-        <h4 mat-line>{{imb.name}}</h4>
-        <p mat-line>£ {{convertEtherToPrice(imb.price)}}</p>
-        <span class="example-spacer"></span>
-        <span *ngIf="imb.purchased" style="color: green"> Purchased </span>
-        <button *ngIf="!imb.purchased" color="primary" mat-button
-                (click)="purchaseImb(imb.id, imb.price)">Buy
-        </button>
-        <mat-divider color="warn"></mat-divider>
-      </mat-list-item>
-    </mat-list>
+
+   <!--  <button mat-button (click)="toggleGridColumns()"></button>  -->
+<!--     <button mat-button (click)="toggleGridColumns()" fxHide.lt-md>
+      <span *ngIf="gridColumns === 4">Three Columns</span>
+      <span *ngIf="gridColumns === 3">Four Columns</span>
+    </button> -->
+    <div class="content">
+      <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
+          *ngFor="let imb of totalImb;let i = index; trackBy: trackByFn" color="warn">
+          <mat-card class="mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-title>{{imb.name}}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image src="http://localhost:3000/{{imb.image}}">
+            <button color="warn" mat-button>{{imb.area}} m²</button>
+            <button color="warn" mat-button>{{convertEtherToPrice(imb.price)}}Euro</button>
+            <mat-card-content>
+              <p>
+                {{imb.description}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+
+              <span class="example-spacer"></span>
+              <span *ngIf="imb.purchased" style="color: green"> Purchased </span>
+              <button color="warn" *ngIf="!imb.purchased" mat-button (click)="purchaseImb(imb.id, imb.price)">Buy
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>
 
